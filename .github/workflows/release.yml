@@ -19,13 +19,20 @@ jobs:
       - name: Prepare release notes
         id: prepare_notes
         run: |
-          TXT_FILES=$(ls *.txt)  # Modify this if .txt files are in a different folder
+          TXT_FILES=$(ls *.txt)  
           NOTES=""
           for FILE in $TXT_FILES; do
-            NOTES="$NOTES\n### $(basename $FILE)\n$(cat $FILE)\n"
+            # Append content to the NOTES variable, replacing newlines and special characters
+            FILE_CONTENT=$(cat $FILE | sed 's/\n/\\n/g')  # Replace newlines with \n
+            NOTES="$NOTES\n### $(basename $FILE)\n$FILE_CONTENT\n"
           done
-          echo "RELEASE_NOTES=$NOTES" >> $GITHUB_ENV  # Use $GITHUB_ENV to set env variable
 
+          # Debug: Print notes to verify content
+          echo "Release Notes: $NOTES"
+
+          # Set the environment variable correctly
+          echo "RELEASE_NOTES=$NOTES" >> $GITHUB_ENV
+          
       # Step 3: List files in the built directory to debug
       - name: List files in built directory
         run: ls -la ./built/
