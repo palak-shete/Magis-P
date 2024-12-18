@@ -1,3 +1,1 @@
-Improvements:
-Remeoved Multiple Valid Targets
-Taget was Changed to Only PRIMUSX PRIMUSX2 PRIMUSXV2
+Improvements Removed Multiple Valid Target and was Changed to Only PRIMUSX PRIMUSX2 PRIMUSXV2
