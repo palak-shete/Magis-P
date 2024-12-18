@@ -3,7 +3,7 @@ name: Release HEX Files
 on:
   push:
     branches:
-      - release  # Trigger workflow when code is pushed to the "release" branch
+      - main  # Trigger workflow when code is pushed to the "main" branch
 
 jobs:
   create-release:
