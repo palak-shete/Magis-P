@@ -29,7 +29,7 @@ jobs:
 
       # Step 3: List files in the built directory to debug
       - name: List files in built directory
-        run: ls -la ./built/
+        run: ls -la ./Builds/
 
       # Step 4: Create GitHub Release with the release notes
       - name: Create GitHub Release
