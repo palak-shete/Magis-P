@@ -3,22 +3,26 @@ name: Release HEX Files
 on:
   push:
     branches:
-      - main  # Trigger workflow when code is pushed to the "main" branch
+      - main
 
 jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # Ensure sufficient permissions
+
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Create release description from .txt files
+      # Step 2: Generate release notes from .txt files
       - name: Prepare release notes
         id: prepare_notes
-        run: # Read all .txt files in the repository (adjust path if necessary)
+        run: |
+          # Read all .txt files in the repository (adjust path if necessary)
           TXT_FILES=$(ls *.txt)
           NOTES=""
           for FILE in $TXT_FILES; do
@@ -35,16 +39,16 @@ jobs:
           # Set the environment variable for release notes
           echo "RELEASE_NOTES=$NOTES" >> $GITHUB_ENV
 
-      # Step 3: List files in the built directory to debug
+      # Step 3: List files in the built directory (debugging)
       - name: List files in built directory
-        run: ls -la ./Builds/
+        run: ls -la ./built/
 
-      # Step 4: Create GitHub Release with the release notes
+      # Step 4: Create GitHub Release using cleaned release notes
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v0.1.0  # Dynamic tag (optional)
-          name: "Release v0.1.0"
-          body: ${{ env.RELEASE_NOTES }}  # Use the environment variable for the description
-          artifacts: "./Builds/*.hex"  # Path to your .hex files
+          tag: v1.0.0  # Adjust tag dynamically if needed
+          name: "Release v1.0.0"
+          body: ${{ env.RELEASE_NOTES }}
+          artifacts: "./built/*.hex"  # Path to your .hex files
