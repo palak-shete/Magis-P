@@ -24,14 +24,18 @@ jobs:
           for FILE in $TXT_FILES; do
             NOTES="$NOTES\n### $(basename $FILE)\n$(cat $FILE)\n"
           done
-          echo "::set-output name=notes::$NOTES"
+          echo "notes=$NOTES" >> $GITHUB_ENV
 
-      # Step 3: Upload release with .hex files
+      # Step 3: List the files in the built directory to debug
+      - name: List files in built directory
+        run: ls -la ./built/
+
+      # Step 4: Upload release with .hex files
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v1.0.0  # Adjust the tag dynamically if needed
-          name: "Release v1.0.0"
-          body: ${{ steps.prepare_notes.outputs.notes }}
-          artifacts: "built/*.hex"
+          tag: v${{ github.run_number }}-${{ github.sha }}  # Dynamic tag (optional)
+          name: "Release v${{ github.run_number }}-${{ github.sha }}"
+          body: ${{ env.notes }}
+          artifacts: "./built/*.hex"
