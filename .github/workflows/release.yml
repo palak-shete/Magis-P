@@ -48,7 +48,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v1.0.0  # Adjust tag dynamically if needed
-          name: "Release v1.0.0"
+          tag: v1.0.1  # Adjust tag dynamically if needed
+          name: "Release v1.0.1"
           body: ${{ env.RELEASE_NOTES }}
           artifacts: "./built/*.hex"  # Path to your .hex files
