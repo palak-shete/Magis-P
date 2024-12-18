@@ -1,0 +1,37 @@
+name: Release HEX Files
+
+on:
+  push:
+    branches:
+      - release  # Trigger workflow when code is pushed to the "release" branch
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Create release description from .txt files
+      - name: Prepare release notes
+        id: prepare_notes
+        run: |
+          TXT_FILES=$(ls built/*.txt)
+          NOTES=""
+          for FILE in $TXT_FILES; do
+            NOTES="$NOTES\n### $(basename $FILE)\n$(cat $FILE)\n"
+          done
+          echo "::set-output name=notes::$NOTES"
+
+      # Step 3: Upload release with .hex files
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: v1.0.0  # Adjust the tag dynamically if needed
+          name: "Release v1.0.0"
+          body: ${{ steps.prepare_notes.outputs.notes }}
+          artifacts: "built/*.hex"
