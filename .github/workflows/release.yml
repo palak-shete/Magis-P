@@ -41,7 +41,7 @@ jobs:
 
       # Step 3: List files in the built directory (debugging)
       - name: List files in built directory
-        run: ls -la ./built/
+        run: ls -la ./Builds/
 
       # Step 4: Create GitHub Release using cleaned release notes
       - name: Create GitHub Release
@@ -51,4 +51,4 @@ jobs:
           tag: v1.0.1  # Adjust tag dynamically if needed
           name: "Release v1.0.1"
           body: ${{ env.RELEASE_NOTES }}
-          artifacts: "./built/*.hex"  # Path to your .hex files
+          artifacts: "./Builds/*.hex"  # Path to your .hex files
