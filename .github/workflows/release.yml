@@ -36,7 +36,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v${{ github.run_number }}-${{ github.sha }}  # Dynamic tag (optional)
-          name: "Release v${{ github.run_number }}-${{ github.sha }}"
+          tag: v0.1.0  # Dynamic tag (optional)
+          name: "Release v0.1.0"
           body: ${{ env.RELEASE_NOTES }}  # Use the environment variable for the description
           artifacts: "./Builds/*.hex"  # Path to your .hex files
